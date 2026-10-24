@@ -122,12 +122,19 @@ body {
 /* bb's .font-normal utility forces 400 on chat/sidebar; Codex renders UI at 430 */
 :root, .light, .dark { --font-weight-normal: 430; }
 
-/* Codex chat + composer text is 14px (bb uses 13px text-sm) */
+/* Codex chat text stays 14px. Keep editable text large enough on touch
+   devices to avoid iOS focus zoom without restricting pinch-to-zoom. */
 [data-message-column],
 [data-message-column] [data-markdown-preview],
 [data-markdown-preview].text-sm,
 .ProseMirror {
   font-size: 0.875rem;
+}
+
+@media (any-pointer: coarse) {
+  .ProseMirror {
+    font-size: max(16px, 1rem);
+  }
 }
 
 /* Codex electron renders UI chrome (sidebar, headers, tool rows) at --font-ui-size = 14px
@@ -217,6 +224,20 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
    Delete this block to bring the bar back.
    --------------------------------------------------------------------------- */
 [data-follow-up-composer-footer] { display: none !important; }
+
+/* Mobile: outrank Beautiful Chat's !important footer grid and display: contents
+   overrides. Repeated :root deliberately raises specificity without IDs.
+   Leave new-thread permission/session controls available. */
+@media (max-width: 767px) {
+  :root:root:root:root [data-follow-up-composer-footer],
+  :root:root:root:root [data-new-thread-footer] > div:first-child {
+    display: none !important;
+  }
+  :root:root:root:root [data-new-thread-footer] {
+    display: flex !important;
+    justify-content: flex-end;
+  }
+}
 
 /* ---------------------------------------------------------------------------
    Use the send indicator arrow from Codex / ChatGPT for the send button.
