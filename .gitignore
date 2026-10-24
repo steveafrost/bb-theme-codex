@@ -1,0 +1,12 @@
+# Build output — bb rebuilds this from source on install (`bb plugin build`).
+dist/
+
+# Dependencies.
+node_modules/
+
+# OS noise.
+.DS_Store
+*.log
+
+# Local scratch copy kept while iterating on a mobile fix.
+theme.css.before-*

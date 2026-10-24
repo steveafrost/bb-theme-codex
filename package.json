@@ -1,0 +1,57 @@
+{
+  "name": "bb-plugin-codex-theme",
+  "version": "0.1.0",
+  "description": "A bb palette that brings the OpenAI Codex / ChatGPT desktop app's look: typography, surfaces, composer geometry, and rail sizing.",
+  "keywords": [
+    "bb",
+    "bb-plugin",
+    "theme",
+    "palette",
+    "codex",
+    "chatgpt"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "bb": ">=0.43",
+    "bbPluginSdk": ">=0.4.87"
+  },
+  "bb": {
+    "name": "Codex Theme",
+    "description": "The OpenAI Codex / ChatGPT desktop look: system-font typography at 430 weight, Codex surfaces and menus, a 26px composer with the Codex send arrow, and a roomier left rail.",
+    "branding": {
+      "icon": "./assets/icon.svg"
+    },
+    "server": "./server.ts",
+    "themes": [
+      {
+        "id": "codex",
+        "name": "Codex",
+        "description": "Visual and layout parity with the OpenAI Codex / ChatGPT desktop app: SF Pro at 430 weight on a 14px scale, Codex surface and menu geometry, the Codex send arrow, and a scaled-up navigation rail. Light and dark.",
+        "css": "./theme.css",
+        "codeTheme": {
+          "dark": "catppuccin-mocha",
+          "light": "catppuccin-latte"
+        }
+      }
+    ],
+    "skills": []
+  },
+  "files": [
+    "dist/server.js",
+    "dist/server.meta.json",
+    "theme.css",
+    "theme.json",
+    "assets/",
+    "README.md",
+    "server.ts"
+  ],
+  "devDependencies": {
+    "@get-bb/plugin-sdk": "0.6.75",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  },
+  "scripts": {
+    "build": "bb plugin build"
+  }
+}
