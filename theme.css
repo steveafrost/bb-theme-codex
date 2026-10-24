@@ -153,18 +153,18 @@ body {
 
 /* Codex left rail: bb draws rail glyphs at 16px (20px on touch) inside 24px
    buttons with a 6px gap, which reads tighter and smaller than the Codex rail.
-   Glyphs go up 25%; --bb-sidebar-control-size grows the button (and so the
-   hover/active pill behind the glyph) to 30px; the rail row gap widens from
-   6px to 10px. The rail column itself follows --bb-sidebar-control-size, so it
-   stays concentric. Custom theme CSS is unlayered, so these win over bb's
+   Glyphs go up 12.5% to 18px; --bb-sidebar-control-size grows the button (and
+   so the hover/active pill behind the glyph) to 30px; the rail row gap widens
+   from 6px to 10px. The rail column itself follows --bb-sidebar-control-size,
+   so it stays concentric. Custom theme CSS is unlayered, so these win over bb's
    @layer base defaults for both pointer and touch sizes. */
 :root {
-  --bb-sidebar-control-icon-size: 20px;
+  --bb-sidebar-control-icon-size: 18px;
   --bb-sidebar-control-size: 30px;
 }
 @media (width < 48rem) and (pointer: coarse) {
   :root {
-    --bb-sidebar-control-icon-size: 25px;
+    --bb-sidebar-control-icon-size: 22.5px;
     --bb-sidebar-control-size: 44px;
   }
 }
