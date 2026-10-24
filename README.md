@@ -54,6 +54,10 @@ bb theme set Codex
 
 Either way the theme takes effect immediately in running windows without a restart.
 
+Pick one. If the plugin is installed, use the plugin alone — a clone of this repo
+sitting in the custom themes directory is a second copy of the same `theme.css`
+that drifts the moment one is updated without the other.
+
 ## Updating
 
 ```bash
