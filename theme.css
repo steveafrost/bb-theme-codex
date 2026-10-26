@@ -157,10 +157,14 @@ body {
    so the hover/active pill behind the glyph) to 30px; the rail row gap widens
    from 6px to 10px. The rail column itself follows --bb-sidebar-control-size,
    so it stays concentric. Custom theme CSS is unlayered, so these win over bb's
-   @layer base defaults for both pointer and touch sizes. */
+   @layer base defaults for both pointer and touch sizes.
+   Rail column width = control size + 2 * --bb-sidebar-rail-padding. bb's 12px
+   padding makes the 30px rail 54px wide; 9px trims it to 48px (bb's stock
+   width) while keeping the larger buttons. */
 :root {
   --bb-sidebar-control-icon-size: 18px;
   --bb-sidebar-control-size: 30px;
+  --bb-sidebar-rail-padding: 9px;
 }
 @media (width < 48rem) and (pointer: coarse) {
   :root {
