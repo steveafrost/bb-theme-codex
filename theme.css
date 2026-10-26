@@ -159,12 +159,12 @@ body {
    so it stays concentric. Custom theme CSS is unlayered, so these win over bb's
    @layer base defaults for both pointer and touch sizes.
    Rail column width = control size + 2 * --bb-sidebar-rail-padding. bb's 12px
-   padding would make the 34px rail 58px wide; 7px keeps it at 48px (bb's
-   stock width). The 34px button gives a larger hover/active pill. */
+   padding would make the 34px rail 58px wide; 9px sets it to 52px, a touch
+   wider than bb's stock 48px. The 34px button gives a larger hover/active pill. */
 :root {
   --bb-sidebar-control-icon-size: 18px;
   --bb-sidebar-control-size: 34px;
-  --bb-sidebar-rail-padding: 7px;
+  --bb-sidebar-rail-padding: 9px;
 }
 @media (width < 48rem) and (pointer: coarse) {
   :root {
