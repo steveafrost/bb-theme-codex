@@ -154,17 +154,17 @@ body {
 /* Codex left rail: bb draws rail glyphs at 16px (20px on touch) inside 24px
    buttons with a 6px gap, which reads tighter and smaller than the Codex rail.
    Glyphs go up 12.5% to 18px; --bb-sidebar-control-size grows the button (and
-   so the hover/active pill behind the glyph) to 30px; the rail row gap widens
-   from 6px to 10px. The rail column itself follows --bb-sidebar-control-size,
+   so the hover/active pill behind the glyph) to 34px; the rail row gap tightens
+   from 6px to 4px. The rail column itself follows --bb-sidebar-control-size,
    so it stays concentric. Custom theme CSS is unlayered, so these win over bb's
    @layer base defaults for both pointer and touch sizes.
    Rail column width = control size + 2 * --bb-sidebar-rail-padding. bb's 12px
-   padding makes the 30px rail 54px wide; 9px trims it to 48px (bb's stock
-   width) while keeping the larger buttons. */
+   padding would make the 34px rail 58px wide; 7px keeps it at 48px (bb's
+   stock width). The 34px button gives a larger hover/active pill. */
 :root {
   --bb-sidebar-control-icon-size: 18px;
-  --bb-sidebar-control-size: 30px;
-  --bb-sidebar-rail-padding: 9px;
+  --bb-sidebar-control-size: 34px;
+  --bb-sidebar-rail-padding: 7px;
 }
 @media (width < 48rem) and (pointer: coarse) {
   :root {
@@ -177,7 +177,7 @@ body {
    column with `gap-1.5` (6px). Widen it; that column is the single div child
    of [data-testid="app-nav-rail"]. */
 [data-testid="app-nav-rail"] > div {
-  gap: 10px;
+  gap: 4px;
 }
 
 /* Text colours: Codex chrome-theme tiers. Codex derives every text tier from its ink

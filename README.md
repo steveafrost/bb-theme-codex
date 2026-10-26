@@ -7,7 +7,7 @@ A bb palette bringing visual and layout parity with the OpenAI Codex / ChatGPT d
 ## Features
 
 - **Codex / ChatGPT Typography**: Uses the macOS system font (`SF Pro`) matching the desktop app, with tuned `430` text weight and a 14px type scale.
-- **Codex Left Rail**: Glyphs at 20px (25px on touch) inside 30px controls with a 10px row gap — the roomier Codex rail rather than bb's tighter default.
+- **Codex Left Rail**: Glyphs at 20px (25px on touch) inside 34px controls (larger hover pills) with a tight 4px row gap, in bb's stock 48px rail width.
 - **Codex Send Indicator Arrow**: Replaces the return icon (`CornerDownLeft`) with the upward send arrow from Codex (`arrow-up-lg-light-20`).
 - **Codex Composer Geometry**:
   - `26px` rounded container corners (matching Codex's `calc(var(--spacing) * 7)` radius).
