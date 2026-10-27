@@ -205,16 +205,6 @@ body {
 /* Codex section labels ("Pinned", "Projects") use the tertiary tier */
 [data-sidebar="group-label"] { color: var(--subtle-foreground); }
 
-/* Codex hides sidebar sections with no threads. An expanded section renders its
-   rows in a `.mt-1` sibling of the label; an empty one leaves that div empty.
-   Collapsed sections drop the div, so they keep their header. Hiding the whole
-   visibility group removes its space-y gap too. Empty sections are not drop
-   targets while hidden; show them again by removing this block. */
-[data-sidebar-visibility-group]:has(> [data-sidebar-sticky-section] > [data-sidebar-windowed-item] > [data-sidebar-section-id] > [data-sidebar="group-label"] + .mt-1:empty),
-[data-sidebar-visibility-group]:has(> [data-sidebar-section-id] > [data-sidebar="group-label"] + .mt-1:empty) {
-  display: none;
-}
-
 /* Codex does not fade settled tool/activity rows; bb dims them to 40% */
 span.inline-flex.opacity-40:has(.text-subtle-foreground),
 div.rounded-md.text-muted-foreground.opacity-40 { opacity: 1; }
