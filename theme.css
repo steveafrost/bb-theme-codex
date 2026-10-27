@@ -745,12 +745,17 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
 
 /* ---------------------------------------------------------------------------
    Keep markdown tables inside the message column. bb widens the table wrapper
-   with an inline style (up to 1100px, centered on the column); wide tables now
-   scroll horizontally inside the column instead. Click-to-expand comes from
-   the bb-plugin-table-expand plugin.
+   with inline styles (up to 1100px, offset to centre on the column); wide
+   tables now scroll horizontally inside the column instead. Click-to-expand
+   comes from the bb-plugin-table-expand plugin.
+   bb <= 0.46: outer div.my-2.flex.justify-center. bb 0.47+: outer div.my-2
+   with inline width/margin-inline, inner div with an inline start offset.
    --------------------------------------------------------------------------- */
-[data-markdown-preview] div.my-2.flex.justify-center:has(> div.overflow-x-auto > table) {
+[data-markdown-preview] div.my-2:has(> div.overflow-x-auto > table) {
   width: 100% !important;
   margin-inline: 0 !important;
   justify-content: flex-start;
+}
+[data-markdown-preview] div.my-2 > div.overflow-x-auto:has(> table) {
+  margin-inline: 0 !important;
 }
