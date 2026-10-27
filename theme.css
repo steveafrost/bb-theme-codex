@@ -205,6 +205,21 @@ body {
 /* Codex section labels ("Pinned", "Projects") use the tertiary tier */
 [data-sidebar="group-label"] { color: var(--subtle-foreground); }
 
+/* Codex hides sidebar sections with no threads. An expanded section renders its
+   rows in a `.mt-1` sibling of the label; an empty one leaves that div empty.
+   Collapsed sections drop the div, so they keep their header.
+   Hide only the section, never its [data-sidebar-windowed-item] wrapper or an
+   ancestor: bb windows the list with an IntersectionObserver on that wrapper,
+   and display:none there makes it unmount, stop matching, remount, and flash.
+   The wrapper collapses to 0px and stays observed. The group's space-y margin
+   is dropped so hidden sections leave no gap. Delete this block to undo. */
+[data-sidebar-section-id]:has(> [data-sidebar="group-label"] + .mt-1:empty) {
+  display: none;
+}
+[data-sidebar-visibility-group]:has(> [data-sidebar-sticky-section] > [data-sidebar-windowed-item] > [data-sidebar-section-id] > [data-sidebar="group-label"] + .mt-1:empty) {
+  margin-block: 0 !important;
+}
+
 /* Codex does not fade settled tool/activity rows; bb dims them to 40% */
 span.inline-flex.opacity-40:has(.text-subtle-foreground),
 div.rounded-md.text-muted-foreground.opacity-40 { opacity: 1; }
