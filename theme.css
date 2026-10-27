@@ -542,6 +542,61 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
   --normal-text: var(--ink) !important;
 }
 
+/* ---------------------------------------------------------------------------
+   Mobile: a notification must never lock the screen.
+
+   bb mounts Sonner's toaster as a fixed <ol> with pointer-events: auto. The
+   offsets above pin both vertical edges with !important, which stretches that
+   layer to the full height of the viewport. Because it sits at z-index
+   999999999, taps anywhere on screen land on the layer instead of the app -
+   the composer cannot be focused and nothing behind it responds until the
+   toast expires.
+
+   So on phones: anchor the layer to one edge only and let it size to its
+   content, then take taps off the layer while each toast keeps its own, so
+   close and action buttons still work. Sonner's mobile layout positions by
+   --mobile-offset-* rather than the 32px offsets above, so a 16px gutter is
+   applied here to keep the card's leading edge on screen.
+   --------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+  [data-sonner-toaster],
+  [data-sonner-toaster][data-y-position="top"],
+  [data-sonner-toaster][data-y-position="bottom"] {
+    left: 16px !important;
+    right: 16px !important;
+    width: auto !important;
+    height: auto !important;
+    bottom: auto !important;
+  }
+
+  [data-sonner-toaster][data-y-position="top"] {
+    top: calc(env(safe-area-inset-top) + var(--bb-app-chrome-row-height) + 16px) !important;
+  }
+
+  [data-sonner-toaster][data-y-position="bottom"] {
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
+  }
+
+  [data-sonner-toaster] [data-sonner-toast] {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* Landscape phones skip Sonner's mobile layout, so the sizing above does not
+   apply there; tap-through still must. */
+@media (max-width: 600px), (pointer: coarse) {
+  [data-sonner-toaster] {
+    pointer-events: none !important;
+  }
+
+  [data-sonner-toaster] [data-sonner-toast] {
+    pointer-events: auto !important;
+  }
+}
+
 /* Custom BB toasts (.bb-app-toast): outer <li> is purely a transparent wrapper */
 [data-sonner-toast].bb-app-toast,
 [data-sonner-toast]:not([data-styled="true"]) {

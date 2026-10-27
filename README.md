@@ -24,6 +24,7 @@ A bb palette bringing visual and layout parity with the OpenAI Codex / ChatGPT d
 - **Codex Notification Popups**:
   - `16px` rounded toast containers matching Codex alert geometry.
   - `#3b3c4f` elevated background, `#404153` border, and rich elevation shadow.
+  - On phones the toast layer is sized to its cards and ignores taps, so a notification never blocks typing, scrolling, or the composer behind it.
   - Semantic icon accents, clean typography, and pill action buttons.
 - **Decluttered View**: Removes the top-right collapse chevron and bottom composer footer for a minimal, focused prompt area.
 - **Catppuccin Palette**: Retains full Catppuccin syntax highlighting and terminal ANSI colors.
