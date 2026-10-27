@@ -37,8 +37,12 @@ Install from the marketplace, or straight from this repository:
 
 ```bash
 bb plugin install git:https://github.com/steveafrost/bb-theme-codex.git --yes
-bb theme set plugin:codex-theme:codex
 ```
+
+Installing activates the palette on its own: the plugin's `onInstall` hook runs
+once after a fresh install and selects it. If you were already on a non-default
+palette the hook leaves your choice alone, and `bb theme set
+plugin:codex-theme:codex` switches whenever you want.
 
 The plugin registers the palette as **Codex** and survives bb upgrades, because bb
 rebuilds it from source on install. Update with `bb plugin update codex-theme`.
