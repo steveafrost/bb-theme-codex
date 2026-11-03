@@ -1,3 +1,15 @@
+/* Codex Theme for bb: https://github.com/steveafrost/bb-theme-codex
+
+   This file is the "Codex" theme and the source for "Codex (BB colors)".
+   theme-bb.css is generated from it by `npm run build:themes`, which swaps each
+   `@region` below for the block of the same name in palettes/bb.css. Edit this
+   file, never theme-bb.css.
+
+   Optional changes (centered welcome, filled nav icons, ...) are off unless the
+   matching plugin setting adds its data-codex-* attribute to <html>; see
+   options.ts. */
+
+/* @region palette */
 /* Catppuccin (bb built-in) with ChatGPT/Codex fonts */
 :root, .light {
   /* Anchors: Base / Text */
@@ -97,6 +109,7 @@
   --ansi-14: #94e2d5;  --ansi-bg-fg-14: #11111b;
   --ansi-15: #a6adc8;  --ansi-bg-fg-15: #11111b;
 }
+/* @endregion palette */
 
 /* Fonts: match the ChatGPT / Codex desktop app (system UI font, SF Mono) */
 :root, .light {
@@ -180,6 +193,7 @@ body {
   gap: 4px;
 }
 
+/* @region text-tiers */
 /* Text colours: Codex chrome-theme tiers. Codex derives every text tier from its ink
    colour (Catppuccin Text, same as bb's --ink) as alpha steps, using its contrast curve:
    dark contrast 71 -> 1.0767, light default 45 -> 0.45.
@@ -202,6 +216,7 @@ body {
   --sidebar-foreground: var(--codex-sidebar-foreground);
   --sidebar-accent-foreground: var(--codex-sidebar-foreground);
 }
+/* @endregion text-tiers */
 /* Codex section labels ("Pinned", "Projects") use the tertiary tier */
 [data-sidebar="group-label"] { color: var(--subtle-foreground); }
 
@@ -227,7 +242,9 @@ div.rounded-md.text-muted-foreground.opacity-40 { opacity: 1; }
 /* Codex composer: model name in primary ink, reasoning level ("Medium") tertiary */
 button[aria-haspopup="dialog"][aria-keyshortcuts="Shift+Meta+M"] span.contents > span.truncate { color: var(--foreground); }
 /* Codex activity rows ("Ran commands", "Command declined…") render at 60% ink; "Worked for" stays tertiary */
+/* @region tool-row */
 :root, .light, .dark { --codex-tool-row: color-mix(in srgb, var(--ink) 60%, transparent); }
+/* @endregion tool-row */
 [class~="group/timeline-row"] button.text-muted-foreground:not(:hover),
 [class~="group/timeline-row"] button.text-muted-foreground:not(:hover) .text-subtle-foreground { color: var(--codex-tool-row); }
 [class~="group/timeline-row"] button:not(:hover) span[title^="Worked for"] .text-subtle-foreground { color: var(--subtle-foreground); }
@@ -240,22 +257,27 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
    Hide the composer bottom bar (environment chip + "new thread in this
    environment" button + context-window usage ring).
    bb has no built-in setting for this; custom theme CSS is the supported hook.
-   Delete this block to bring the bar back.
+   The "Show the bar under the composer" setting (data-codex-composer-footer)
+   brings the bar back without the "New thread in this environment" button.
    --------------------------------------------------------------------------- */
-[data-follow-up-composer-footer] { display: none !important; }
+:root:not([data-codex-composer-footer]) [data-follow-up-composer-footer] { display: none !important; }
 
 /* Mobile: outrank Beautiful Chat's !important footer grid and display: contents
    overrides. Repeated :root deliberately raises specificity without IDs.
    Leave new-thread permission/session controls available. */
 @media (max-width: 767px) {
-  :root:root:root:root [data-follow-up-composer-footer],
-  :root:root:root:root [data-new-thread-footer] > div:first-child {
+  :root:root:root:root:not([data-codex-composer-footer]) [data-follow-up-composer-footer],
+  :root:root:root:root:not([data-codex-composer-footer]) [data-new-thread-footer] > div:first-child {
     display: none !important;
   }
-  :root:root:root:root [data-new-thread-footer] {
+  :root:root:root:root:not([data-codex-composer-footer]) [data-new-thread-footer] {
     display: flex !important;
     justify-content: flex-end;
   }
+}
+
+:root[data-codex-composer-footer] [data-follow-up-composer-footer] button[aria-label="New thread in this environment"] {
+  display: none !important;
 }
 
 /* ---------------------------------------------------------------------------
@@ -297,9 +319,14 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
    --------------------------------------------------------------------------- */
 :is([data-promptbox], [data-follow-up-composer] [data-promptbox]) {
   border-radius: 26px !important;
-  background-color: var(--popover) !important;
   border-color: var(--popover-border) !important;
 }
+
+/* @region composer-surface */
+:is([data-promptbox], [data-follow-up-composer] [data-promptbox]) {
+  background-color: var(--popover) !important;
+}
+/* @endregion composer-surface */
 
 [data-promptbox] [data-promptbox-editor-scroll] {
   min-height: 42px !important;
@@ -374,10 +401,54 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
   margin: 0 !important;
 }
 
+/* Refine BB's existing floating-menu animations. The positioning wrapper keeps
+   control of placement; only the inner surface fades and settles by 2px. */
+[data-radix-popper-content-wrapper] > :is([role="menu"], [role="dialog"], [role="listbox"])[data-state] {
+  --tw-enter-scale: 1 !important;
+  --tw-exit-scale: 1 !important;
+  --tw-enter-translate-x: 0px !important;
+  --tw-exit-translate-x: 0px !important;
+  --tw-enter-translate-y: 2px !important;
+  --tw-exit-translate-y: 2px !important;
+  animation-duration: 120ms !important;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-radix-popper-content-wrapper] > :is([role="menu"], [role="dialog"], [role="listbox"])[data-side="bottom"] {
+  --tw-enter-translate-y: -2px !important;
+  --tw-exit-translate-y: -2px !important;
+}
+
+[data-radix-popper-content-wrapper] > :is([role="menu"], [role="dialog"], [role="listbox"]):is([data-side="left"], [data-side="right"]) {
+  --tw-enter-translate-y: 0px !important;
+  --tw-exit-translate-y: 0px !important;
+}
+
+[data-radix-popper-content-wrapper] > :is([role="menu"], [role="dialog"], [role="listbox"])[data-side="left"] {
+  --tw-enter-translate-x: 2px !important;
+  --tw-exit-translate-x: 2px !important;
+}
+
+[data-radix-popper-content-wrapper] > :is([role="menu"], [role="dialog"], [role="listbox"])[data-side="right"] {
+  --tw-enter-translate-x: -2px !important;
+  --tw-exit-translate-x: -2px !important;
+}
+
+[data-radix-popper-content-wrapper] > :is([role="menu"], [role="dialog"], [role="listbox"])[data-state="closed"] {
+  animation-duration: 80ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-radix-popper-content-wrapper] > :is([role="menu"], [role="dialog"], [role="listbox"])[data-state] {
+    animation: none !important;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Codex Context Menus & Dropdown Menus:
    - 16px rounded corners (matching Codex --menu-radius: var(--radius-2xl))
-   - #3b3c4f elevated background and #404153 border sampled from Codex dark mode
+   - Elevated --popover surface and --popover-border (Codex's #3b3c4f / #404153
+     in dark mode with the Catppuccin palette)
    - 10px rounded menu items (concentric geometry with 6px container padding)
    - Refined hover states, subtle dividers, and destructive item styling
    --------------------------------------------------------------------------- */
@@ -434,11 +505,10 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
   opacity: 0.8 !important;
 }
 
-/* Menu icons */
+/* Menu icons inherit row color; bb controls opacity to hide unchecked marks. */
 :is([data-radix-menu-content], [data-radix-dropdown-menu-content], [data-radix-context-menu-content], [role="menu"])
   :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]) :is([data-icon-root], svg) {
   color: inherit !important;
-  opacity: 0.9 !important;
 }
 
 /* Secondary / detail text in menu rows (e.g. "All activity" under Notifications) */
@@ -515,9 +585,9 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
 /* ---------------------------------------------------------------------------
    Codex Notification Popups (Toasts):
    - 16px rounded corners (matching Codex alert/toast geometry)
-   - #3b3c4f elevated background and #404153 border sampled from Codex dark mode
+   - Elevated --popover surface and --popover-border, as in menus
    - Refined title, description, close button, and pill action buttons
-   - Semantic icon colors matching Catppuccin / Codex palettes
+   - Semantic icon colors from the active palette
    --------------------------------------------------------------------------- */
 [data-sonner-toaster] {
   --border-radius: 16px !important;
@@ -545,15 +615,9 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
   top: 32px !important;
 }
 
-.dark [data-sonner-toaster] {
-  --normal-bg: #3b3c4f !important;
-  --normal-border: #404153 !important;
-  --normal-text: var(--ink) !important;
-}
-
-:root:not(.dark) [data-sonner-toaster] {
-  --normal-bg: #ffffff !important;
-  --normal-border: #e6e9ef !important;
+[data-sonner-toaster] {
+  --normal-bg: var(--popover) !important;
+  --normal-border: var(--popover-border) !important;
   --normal-text: var(--ink) !important;
 }
 
@@ -761,16 +825,264 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
 /* ---------------------------------------------------------------------------
    Keep markdown tables inside the message column. bb widens the table wrapper
    with inline styles (up to 1100px, offset to centre on the column); wide
-   tables now scroll horizontally inside the column instead. Click-to-expand
-   comes from the bb-plugin-table-expand plugin.
-   bb <= 0.46: outer div.my-2.flex.justify-center. bb 0.47+: outer div.my-2
-   with inline width/margin-inline, inner div with an inline start offset.
+   tables scroll horizontally inside the column instead and fade at the right
+   edge until the last column is reached. Click-to-expand comes from the
+   bb-plugin-table-expand plugin. Matches bb <= 0.46 (div.my-2.flex) and 0.47+.
+   Table containment and the fade are by Jaryd Diamond (bb-codex).
    --------------------------------------------------------------------------- */
-[data-markdown-preview] div.my-2:has(> div.overflow-x-auto > table) {
+[data-markdown-preview] div:has(> div.overflow-x-auto > table) {
   width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
   margin-inline: 0 !important;
-  justify-content: flex-start;
 }
-[data-markdown-preview] div.my-2 > div.overflow-x-auto:has(> table) {
+
+[data-markdown-preview] div.overflow-x-auto:has(> table) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
   margin-inline: 0 !important;
+  overflow-x: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent;
+}
+
+[data-markdown-preview] div.overflow-x-auto > table {
+  width: max-content;
+  min-width: 100%;
+}
+
+[data-markdown-preview] div.overflow-x-auto > table :is(th, td) {
+  max-width: 36rem;
+}
+
+/* No overflow means no timeline/fade; the final column is fully visible at the end. */
+@supports (animation-timeline: scroll(self inline)) {
+  [data-markdown-preview] div.overflow-x-auto:has(> table) {
+    animation: codex-table-edge 1s linear both;
+    animation-timeline: scroll(self inline);
+  }
+}
+
+@keyframes codex-table-edge {
+  0%, 99.9% { mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  100% { mask-image: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Optional: instant sidebar (no open/close or disclosure animation).
+   Applies only while the plugin setting adds data-codex-instant-sidebar to <html>.
+   From Jaryd Diamond's bb-codex.
+   --------------------------------------------------------------------------- */
+/* Make the sidebar's thread/group disclosure arrows change instantly. */
+:root[data-codex-instant-sidebar] [data-bb-plugin="thread-list"] button[aria-expanded] .transition-transform {
+  transition: none !important;
+}
+
+/* Keep the sidebar, its reserved space, and the thread header in sync. */
+:root[data-codex-instant-sidebar] [data-sidebar="gap"],
+:root[data-codex-instant-sidebar] [data-sidebar="panel"],
+:root[data-codex-instant-sidebar] [data-sidebar="collapsible-body"],
+:root[data-codex-instant-sidebar] [data-sidebar="inset"],
+:root[data-codex-instant-sidebar] [data-sidebar="inset"]::before,
+:root[data-codex-instant-sidebar] [data-testid="app-page-header-content-row"],
+:root[data-codex-instant-sidebar] [data-testid="app-desktop-sidebar-trigger"] {
+  transition: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Optional: Codex thread status (blue unread dot, ring spinner).
+   Applies only while the plugin setting adds data-codex-thread-status to <html>.
+   From Jaryd Diamond's bb-codex.
+   --------------------------------------------------------------------------- */
+/* Codex-style thread status: a blue unread dot and a continuous loading ring. */
+:root[data-codex-thread-status] [data-bb-plugin="thread-list"] {
+  --bb-thread-completed: #2277cc;
+}
+
+:root.dark[data-codex-thread-status] [data-bb-plugin="thread-list"] {
+  --bb-thread-completed: #6bb5fa;
+}
+
+:root[data-codex-thread-status] [data-bb-plugin="thread-list"] [aria-label="Unread thread succeeded"] {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background-color: var(--bb-thread-completed) !important;
+  opacity: 1 !important;
+}
+
+:root[data-codex-thread-status] [data-bb-plugin="thread-list"] [data-icon-root][aria-label="Thread working"] {
+  box-sizing: border-box;
+  width: 14px !important;
+  height: 14px !important;
+  border: 1.5px solid color-mix(in srgb, var(--muted-foreground) 28%, transparent) !important;
+  border-top-color: var(--muted-foreground) !important;
+  border-right-color: color-mix(in srgb, var(--muted-foreground) 65%, transparent) !important;
+  border-radius: 50% !important;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  animation-duration: 900ms !important;
+}
+
+/* Retain the accessible status label and BB's rotation while hiding the spokes. */
+:root[data-codex-thread-status] [data-bb-plugin="thread-list"] [data-icon-root][aria-label="Thread working"] > * {
+  visibility: hidden !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-codex-thread-status] [data-bb-plugin="thread-list"] [data-icon-root][aria-label="Thread working"] {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Optional: thread outline on the left.
+   Applies only while the plugin setting adds data-codex-outline-left to <html>.
+   From Jaryd Diamond's bb-codex.
+   --------------------------------------------------------------------------- */
+/* Keep the outline in its own chat pane, and open its menu toward the messages. */
+:root[data-codex-outline-left] [data-scroll-overlay]:has([data-thread-toc]) {
+  justify-content: flex-start !important;
+}
+
+:root[data-codex-outline-left] [data-thread-toc] [id^="thread-toc-panel-"] {
+  left: 100% !important;
+  right: auto !important;
+  padding-left: 0.25rem;
+  padding-right: 0 !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Optional: filled, high-contrast icon for the selected rail item.
+   Applies only while the plugin setting adds data-codex-filled-nav-icons to <html>.
+   From Jaryd Diamond's bb-codex.
+   --------------------------------------------------------------------------- */
+/* Highlight selected navigation; only closed shapes receive a fill. */
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] {
+  color: var(--ink) !important;
+}
+
+:root.dark[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] {
+  color: #fff !important;
+}
+
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] [data-icon-root] {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
+/* Filling the circular plug cable or repeat curves closes them into blobs. */
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] svg:is([data-icon="Plug02"], [data-icon="Repeat"]):not([data-plugin-icon-asset]) > path {
+  stroke-width: 2;
+}
+
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] svg[data-icon="Plug02"]:not([data-plugin-icon-asset]) > path:nth-of-type(2),
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] svg[data-icon="Zap"]:not([data-plugin-icon-asset]) {
+  fill: currentColor;
+}
+
+/* A filled house with an open doorway, including mask-rendered Home icons. */
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] [data-icon="Home"]:not([data-plugin-icon-asset]) {
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11.3 2.6a1.1 1.1 0 0 1 1.4 0l9 7.6a1 1 0 0 1-.7 1.8h-1v8a1 1 0 0 1-1 1h-5v-7h-4v7H5a1 1 0 0 1-1-1v-8H3a1 1 0 0 1-.7-1.8z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+}
+
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] [data-icon="Home"]:not([data-plugin-icon-asset]) > * {
+  visibility: hidden;
+}
+
+/* Preserve interior details on native glyphs that would otherwise fill solid. */
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] [data-icon="Bot"]:not([data-plugin-icon-asset]) {
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M11%202h2v4h4a4%204%200%200%201%204%204v7a4%204%200%200%201-4%204H7a4%204%200%200%201-4-4v-7a4%204%200%200%201%204-4h4V2ZM7%2010v3h2v-3H7Zm8%200v3h2v-3h-2ZM8%2016v2h8v-2H8Z%27%2F%3E%3Cpath%20d%3D%27M0%2011h2v5H0zm22%200h2v5h-2z%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat !important;
+}
+
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] [data-icon="Settings"]:not([data-plugin-icon-asset]) {
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27m10%202-.7%203-2%201.2-3-.9-2%203.4%202.2%202.1v2.4L2.3%2015l2%203.4%203-.8%202%201.2.7%203h4l.7-3%202-1.2%203%20.8%202-3.4-2.2-1.8v-2.4l2.2-2.1-2-3.4-3%20.9-2-1.2L14%202h-4Zm2%206a4%204%200%201%201%200%208%204%204%200%200%201%200-8Z%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat !important;
+}
+
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] [data-icon="Clock"]:not([data-plugin-icon-asset]) {
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M12%202a10%2010%200%201%200%200%2020%2010%2010%200%200%200%200-20Zm-1%204v7l4.5%202.6%201-1.7-3.5-2V6h-2Z%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat !important;
+}
+
+:root[data-codex-filled-nav-icons] [data-testid="app-nav-rail"] button[aria-current="page"] :is([data-icon="Bot"], [data-icon="Settings"], [data-icon="Clock"]):not([data-plugin-icon-asset]) > * {
+  visibility: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   Optional: centered BB welcome on the new-thread screen (with app.tsx/app.css).
+   Applies only while the plugin setting adds data-codex-welcome to <html>.
+   From Jaryd Diamond's bb-codex.
+   --------------------------------------------------------------------------- */
+/* The native compact/mobile layout already docks its composer above the keyboard. */
+@media (min-width: 768px) and (min-height: 480px) {
+  :root[data-codex-welcome] {
+    --codex-welcome-display: flex;
+    --codex-homepage-display: contents;
+  }
+
+  :root[data-codex-welcome] [class~="@container/page"] > div:has(> [data-testid="plugin-homepage-sections"] > [id="plugin-homepage:codex-theme:welcome"]) {
+    min-height: 100%;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem;
+    gap: 1rem;
+  }
+
+  :root[data-codex-welcome] [class~="@container/page"] > div:has(> [data-testid="plugin-homepage-sections"] > [id="plugin-homepage:codex-theme:welcome"]) > :not([data-testid="plugin-homepage-sections"]) {
+    order: 2;
+    flex-shrink: 0;
+  }
+
+  :root[data-codex-welcome] [data-testid="plugin-homepage-sections"]:has(> [id="plugin-homepage:codex-theme:welcome"]) {
+    display: contents;
+  }
+
+  :root[data-codex-welcome] [id="plugin-homepage:codex-theme:welcome"] {
+    flex: 1 0 12rem;
+    order: -1;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+  }
+
+  :root[data-codex-welcome] [id="plugin-homepage:codex-theme:welcome"] > [data-bb-plugin] {
+    width: 100%;
+    min-width: 0;
+  }
+
+  :root[data-codex-welcome] .codex-welcome {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  :root[data-codex-welcome] .codex-logo {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  :root.dark[data-codex-welcome] .codex-logo {
+    filter: invert(1);
+  }
+
+  :root[data-codex-welcome] .codex-welcome > h1 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3.8cqw, 2rem);
+    line-height: 1.25;
+    font-weight: 430;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+    color: var(--foreground);
+  }
 }

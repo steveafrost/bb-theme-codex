@@ -1,0 +1,13 @@
+/* The welcome section stays hidden unless the active Codex theme and the
+   "Centered welcome" setting both turn it on (see theme.css). */
+[id="plugin-homepage:codex-theme:welcome"] {
+  display: var(--codex-welcome-display, none);
+}
+
+[id="plugin-homepage:codex-theme:welcome"] > h2 {
+  display: none;
+}
+
+[data-testid="plugin-homepage-sections"]:has(> [id="plugin-homepage:codex-theme:welcome"]:only-child) {
+  display: var(--codex-homepage-display, none);
+}

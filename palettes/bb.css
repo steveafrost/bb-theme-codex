@@ -1,0 +1,33 @@
+/* BB colors palette for "Codex (BB colors)", from Jaryd Diamond's bb-codex.
+
+   Each @region here replaces the region of the same name in theme.css when
+   `npm run build:themes` writes theme-bb.css. Every region in theme.css needs a
+   block here, even an empty one. */
+
+/* @region palette */
+/* Keep BB's native light and dark color tokens; only type, layout and motion change. */
+/* @endregion palette */
+
+/* @region text-tiers */
+/* Map theme-specific surfaces and text onto BB's native colors. */
+:root {
+  --popover-border: var(--border);
+  --codex-placeholder: var(--muted-foreground);
+}
+/* @endregion text-tiers */
+
+/* @region tool-row */
+/* Activity rows use BB's secondary text; "Worked for" stays tertiary. */
+:root { --codex-tool-row: var(--muted-foreground); }
+/* @endregion tool-row */
+
+/* @region composer-surface */
+:is([data-promptbox], [data-follow-up-composer] [data-promptbox]) {
+  background-color: var(--secondary) !important;
+}
+
+/* Match Codex's white composer surface in light mode. */
+:root:not(.dark) [data-promptbox] {
+  background-color: var(--popover) !important;
+}
+/* @endregion composer-surface */

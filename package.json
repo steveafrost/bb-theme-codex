@@ -1,6 +1,6 @@
 {
   "name": "bb-plugin-codex-theme",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "A bb palette that brings the OpenAI Codex / ChatGPT desktop app's look: typography, surfaces, composer geometry, and rail sizing.",
   "keywords": [
     "bb",
@@ -13,12 +13,12 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "bb": ">=0.43",
-    "bbPluginSdk": ">=0.4.87"
+    "bb": ">=0.47.1",
+    "bbPluginSdk": ">=0.6.79"
   },
   "bb": {
     "name": "Codex Theme",
-    "description": "The OpenAI Codex / ChatGPT desktop look: system-font typography at 430 weight, Codex surfaces and menus, a 26px composer with the Codex send arrow, and a roomier left rail.",
+    "description": "The OpenAI Codex / ChatGPT desktop look: system-font typography at 430 weight, Codex surfaces and menus, a 26px composer with the Codex send arrow, and a roomier left rail. Pick Catppuccin or BB colors, and turn on optional changes in the plugin settings.",
     "branding": {
       "icon": "./assets/icon.svg"
     },
@@ -27,31 +27,58 @@
       {
         "id": "codex",
         "name": "Codex",
-        "description": "Visual and layout parity with the OpenAI Codex / ChatGPT desktop app: SF Pro at 430 weight on a 14px scale, Codex surface and menu geometry, the Codex send arrow, and a scaled-up navigation rail. Light and dark.",
+        "description": "Visual and layout parity with the OpenAI Codex / ChatGPT desktop app on the Catppuccin palette: SF Pro at 430 weight on a 14px scale, Codex surface and menu geometry, the Codex send arrow, and a scaled-up navigation rail. Light and dark.",
         "css": "./theme.css",
         "codeTheme": {
           "dark": "catppuccin-mocha",
           "light": "catppuccin-latte"
         }
+      },
+      {
+        "id": "codex-bb",
+        "name": "Codex (BB colors)",
+        "description": "The same Codex layout and typography on BB's default light and dark colors, with Pierre syntax highlighting.",
+        "css": "./theme-bb.css",
+        "codeTheme": {
+          "dark": "pierre-dark",
+          "light": "pierre-light"
+        }
       }
     ],
-    "skills": []
+    "skills": [],
+    "app": "./app.tsx"
   },
   "files": [
-    "dist/server.js",
-    "dist/server.meta.json",
+    "dist/",
     "theme.css",
+    "theme-bb.css",
     "theme.json",
+    "palettes/",
+    "scripts/",
     "assets/",
     "README.md",
-    "server.ts"
+    "LICENSE",
+    "server.ts",
+    "app.tsx",
+    "app.css",
+    "options.ts",
+    "bb-logo.ts",
+    "tsconfig.json"
   ],
-  "devDependencies": {
-    "@get-bb/plugin-sdk": "0.6.75",
-    "@types/node": "^22.0.0",
-    "typescript": "^5.7.0"
-  },
   "scripts": {
-    "build": "bb plugin build"
+    "build": "bb plugin build",
+    "build:themes": "node scripts/build-themes.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@get-bb/plugin-sdk": "^0.6.104",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.12"
   }
 }
