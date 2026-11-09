@@ -30,6 +30,11 @@ export const OPTIONS = {
     label: "Instant sidebar",
     description: "Open and close the sidebar, and expand its sections, without animation.",
   },
+  hideEmptySections: {
+    attribute: "data-codex-hide-empty-sections",
+    label: "Hide empty sidebar sections",
+    description: "Hide expanded sidebar sections that have no threads, as Codex does. Collapsed sections keep their header.",
+  },
   threadStatus: {
     attribute: "data-codex-thread-status",
     label: "Codex thread status",

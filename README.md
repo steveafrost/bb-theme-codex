@@ -55,6 +55,7 @@ live to whichever Codex theme is active.
 | Filled icon for the selected rail item | `filledNavIcons` | High-contrast, filled glyph for the current page in the rail. |
 | Thread outline on the left | `outlineOnLeft` | Moves the thread outline to the left, opening toward the messages. |
 | Instant sidebar | `instantSidebar` | No animation when the sidebar or its sections open and close. |
+| Hide empty sidebar sections | `hideEmptySections` | Hides expanded sidebar sections with no threads, as Codex does. Collapsed sections keep their header. |
 | Codex thread status | `threadStatus` | A blue dot for unread finished threads and a ring spinner for working ones. |
 
 The BB colors palette, the optional changes, the table and menu refinements come from
