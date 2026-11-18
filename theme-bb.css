@@ -104,6 +104,21 @@ body {
 /* Codex section labels ("Pinned", "Projects") use the tertiary tier */
 [data-sidebar="group-label"] { color: var(--subtle-foreground); }
 
+/* Thread-list working indicators (the spinner, and the workflow, background and
+   plan-mode icons) come from bb at half-strength secondary text: 2.4:1 on the dark
+   sidebar and 1.7:1 on the light one. Draw them in the row-title colour instead
+   (7.9:1 and 4.8:1). */
+[data-bb-plugin="thread-list"] :is(
+  [aria-label="Thread working"],
+  [aria-label="Thread working with unsubmitted draft"],
+  [aria-label="Workflow running"],
+  [aria-label="Background agent running"],
+  [aria-label="Background command running"],
+  [aria-label="Plan mode active"]
+) {
+  color: var(--sidebar-foreground) !important;
+}
+
 /* Codex does not fade settled tool/activity rows; bb dims them to 40% */
 span.inline-flex.opacity-40:has(.text-subtle-foreground),
 div.rounded-md.text-muted-foreground.opacity-40 { opacity: 1; }
