@@ -105,6 +105,31 @@ bb plugin update codex-theme     # plugin install
 git -C ~/.bb/theme/Codex pull    # custom theme directory
 ```
 
+### Stuck on 0.1.x?
+
+If you installed from the marketplace before v0.2.0, `bb plugin update` will keep
+reporting you are current even though newer releases exist. That install recorded
+a `^0.1.0` range, and bb resolves updates against the range stored at install
+time rather than the range the marketplace advertises today, so nothing from the
+0.2 line is visible to it. `bb` also refuses to change an installed plugin's
+source in place, so re-installing over the top fails with *"already installed
+from…"*.
+
+Remove and install again to move to the 0.2 line:
+
+```bash
+bb plugin config codex-theme --json   # note your settings first
+bb plugin remove codex-theme
+bb plugin install codex-theme --yes
+```
+
+**Removal deletes the plugin's settings**, so re-enable the optional changes you
+had on once it is back. The new install records a `>=0.1.0 <1.0.0` range and
+updates normally from then on.
+
+Installs made with the plain `git:` command above are unaffected — that records
+the default branch, not a range, and has always tracked `main`.
+
 ## Reset / Uninstall
 
 ```bash
