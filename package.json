@@ -1,6 +1,6 @@
 {
   "name": "bb-plugin-codex-theme",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A bb palette that brings the OpenAI Codex / ChatGPT desktop app's look: typography, surfaces, composer geometry, and rail sizing.",
   "keywords": [
     "bb",
