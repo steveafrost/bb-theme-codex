@@ -56,7 +56,7 @@ live to whichever Codex theme is active.
 | Thread outline on the left | `outlineOnLeft` | Moves the thread outline to the left, opening toward the messages. |
 | Instant sidebar | `instantSidebar` | No animation when the sidebar or its sections open and close. |
 | Hide empty sidebar sections | `hideEmptySections` | Hides expanded sidebar sections with no threads, as Codex does. Collapsed sections keep their header. |
-| Codex thread status | `threadStatus` | A blue dot for unread finished threads and a ring spinner for working ones. |
+| Dot and ring thread indicators | `threadStatus` | Swaps the thread list's indicators for Codex's: a blue dot for unread finished threads and a spinning ring for working ones. |
 
 The BB colors palette, the optional changes, the table and menu refinements come from
 [Jaryd Diamond](https://github.com/jarydo)'s bb-codex fork, folded back in as options.

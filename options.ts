@@ -37,8 +37,9 @@ export const OPTIONS = {
   },
   threadStatus: {
     attribute: "data-codex-thread-status",
-    label: "Codex thread status",
-    description: "A blue dot for unread finished threads and a ring spinner for working ones.",
+    label: "Dot and ring thread indicators",
+    description:
+      "Replace the thread list's indicators with Codex's: a blue dot for unread finished threads and a spinning ring for working ones.",
   },
 } as const;
 
