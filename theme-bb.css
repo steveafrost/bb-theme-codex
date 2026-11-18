@@ -936,6 +936,14 @@ span.inline-flex.min-w-0.max-w-full.items-center.opacity-40 { opacity: 1; }
     gap: 1rem;
   }
 
+  /* bb 0.50.1 moved @container/page off the scrollport onto an auto-height
+     child, so the column's min-height: 100% has nothing to resolve against.
+     Fill the scrollport again. Wide layout only: the compact layout has no
+     .overflow-y-auto parent, and before 0.50.1 the container was the scrollport. */
+  :root[data-codex-welcome] .overflow-y-auto > [class~="@container/page"]:has(> [data-testid="root-compose-compact-home"] > [data-testid="plugin-homepage-sections"] > [id="plugin-homepage:codex-theme:welcome"]) {
+    height: 100%;
+  }
+
   :root[data-codex-welcome] [class~="@container/page"] > div:has(> [data-testid="plugin-homepage-sections"] > [id="plugin-homepage:codex-theme:welcome"]) > :not([data-testid="plugin-homepage-sections"]) {
     order: 2;
     flex-shrink: 0;

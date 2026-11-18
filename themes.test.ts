@@ -57,6 +57,22 @@ describe("optional blocks", () => {
     }
   });
 
+  // bb 0.50.1 wraps the wide new-thread column in an auto-height @container/page
+  // inside the scrollport; without this rule the welcome stops filling the pane.
+  it.each([
+    ["theme.css", theme],
+    ["theme-bb.css", themeBb],
+  ])("%s fills the scrollport's page container on the wide new-thread screen", (_file, css) => {
+    const wide = css.slice(css.indexOf("@media (min-width: 768px) and (min-height: 480px) {\n  :root[data-codex-welcome] {"));
+    const block = wide.slice(0, wide.indexOf("\n}\n"));
+    const rule =
+      ':root[data-codex-welcome] .overflow-y-auto > [class~="@container/page"]:has(> [data-testid="root-compose-compact-home"] > [data-testid="plugin-homepage-sections"] > [id="plugin-homepage:codex-theme:welcome"]) {\n    height: 100%;\n  }';
+    expect(block).toContain(rule);
+    expect(css.split(rule)).toHaveLength(2);
+    // The column rule it supports is still there.
+    expect(block).toMatch(/\[class~="@container\/page"\] > div:has\(> \[data-testid="plugin-homepage-sections"\] > \[id="plugin-homepage:codex-theme:welcome"\]\) \{\n    min-height: 100%;/);
+  });
+
   it("uses the plugin's own homepage section id", () => {
     expect(theme).not.toMatch(/:bb-codex:|bb-codex-/);
     expect(read("./app.css")).toContain("plugin-homepage:codex-theme:welcome");
